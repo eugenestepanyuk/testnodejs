@@ -1,12 +1,13 @@
 let express = require("express");
 let fs = require("fs");
+const path = require('path');
 
 let app = express();
+const blogStorage = path.normalize(path.join(__dirname, 'blogs.json'));
 app.use(express.static(__dirname + "/public"));
 
 // получение списка данных
 app.get("/api/blogs", (request, response) => {
-
     let content = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(content);
     response.send(blogs);
@@ -41,7 +42,7 @@ app.post("/api/blogs", express.json(), (request, response) => {
     blogs.push(blog);
     var data = JSON.stringify(blogs);
     // перезаписываем файл с новыми данными
-    fs.writeFileSync("blogs.json", data);
+    fs.writeFileSync(blogStorage, data);
     response.send(blog);
 });
 // удаление блога по id
@@ -61,7 +62,7 @@ app.delete("/api/blogs/:id", (request, response) => {
         // удаляем блог из массива по индексу
         let blog = blogs.splice(index, 1)[0];
         let data = JSON.stringify(blogs);
-        fs.writeFileSync("blogs.json", data);
+        fs.writeFileSync(blogStorage, data);
         // отправляем удаленный блог
         response.send(blog);
     }
@@ -86,7 +87,7 @@ app.put("/api/blogs", express.json(), (request, response) => {
         blog.content = blogContent;
         blog.name = blogName;
         let data = JSON.stringify(blogs);
-        fs.writeFileSync("blogs.json", data);
+        fs.writeFileSync(blogStorage, data);
         response.send(blog);
     }
     else response.status(404).send(blog);
