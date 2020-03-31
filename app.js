@@ -13,7 +13,6 @@ app.get("/api/blogs", (request, response) => {
 });
 // получение одного блога по id
 app.get("/api/blogs/:id", (request, response) => {
-
     let id = request.params.id; // получаем id
     let content = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(content);
@@ -26,18 +25,18 @@ app.get("/api/blogs/:id", (request, response) => {
 // получение отправленных данных
 app.post("/api/blogs", express.json(), (request, response) => {
     if(!request.body) return response.sendStatus(400);
-
-    let blogName = request.body.name;
-    let blogContent = request.body.content;
+    const { name: blogName, content: blogContent } = request.body;
     let blog = {name: blogName, content: blogContent};
 
     var data = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(data);
-
     // находим максимальный id
-    let id = Math.max.apply(Math, blogs.map(function(o){return o.id;}))
+    const latestId = blogs.reduce((acc, blog) =>{
+        if(blog.id > acc) return blog.id;
+        return acc;
+    }, 0);
     // увеличиваем его на единицу
-    blog.id = id + 1;
+    blog.id = latestId + 1;
     // добавляем блог в массив
     blogs.push(blog);
     var data = JSON.stringify(blogs);
@@ -71,10 +70,7 @@ app.delete("/api/blogs/:id", (request, response) => {
 // изменение блога
 app.put("/api/blogs", express.json(), (request, response) => {
     if(!request.body) return response.sendStatus(400);
-
-    let blogId = request.body.id;
-    let blogName = request.body.name;
-    let blogContent = request.body.content;
+    const { id: blogId, name: blogName, content: blogContent } = request.body;
 
     let data = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(data);
