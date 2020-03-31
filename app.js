@@ -2,35 +2,29 @@ let express = require("express");
 let fs = require("fs");
 
 let app = express();
-
 app.use(express.static(__dirname + "/public"));
+
 // получение списка данных
-app.get("/api/blogs", function(request, response){
+app.get("/api/blogs", (request, response) => {
 
     let content = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(content);
     response.send(blogs);
 });
 // получение одного блога по id
-app.get("/api/blogs/:id", function(request, response){
+app.get("/api/blogs/:id", (request, response) => {
 
     let id = request.params.id; // получаем id
     let content = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(content);
-    let blog = null;
     // находим в массиве блог по id
-    for(let i = 0; i < blogs.length; i++){
-        if(blogs[i].id == id){
-            blog = blogs[i];
-            break;
-        }
-    }
+    const blog = blogs.find(blog => blog.id == id);
     // отправляем блог
     if(blog) response.send(blog);
     else response.status(404).send();
 });
 // получение отправленных данных
-app.post("/api/blogs", express.json(), function (request, response) {
+app.post("/api/blogs", express.json(), (request, response) => {
     if(!request.body) return response.sendStatus(400);
 
     let blogName = request.body.name;
@@ -52,7 +46,7 @@ app.post("/api/blogs", express.json(), function (request, response) {
     response.send(blog);
 });
 // удаление блога по id
-app.delete("/api/blogs/:id", function(request, response){
+app.delete("/api/blogs/:id", (request, response) => {
     let id = request.params.id;
     let data = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(data);
@@ -75,7 +69,7 @@ app.delete("/api/blogs/:id", function(request, response){
     else response.status(404).send();
 });
 // изменение блога
-app.put("/api/blogs", express.json(), function(request, response){
+app.put("/api/blogs", express.json(), (request, response) => {
     if(!request.body) return response.sendStatus(400);
 
     let blogId = request.body.id;
