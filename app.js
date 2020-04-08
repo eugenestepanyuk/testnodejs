@@ -1,11 +1,14 @@
-let express = require("express");
-let fs = require("fs");
+const express = require("express");
+const fs = require("fs");
 const path = require('path');
+const app = express();
 
-let app = express();
 const blogStorage = path.normalize(path.join(__dirname, 'blogs.json'));
+const bootstrap_css = path.normalize(path.join(__dirname, 'node_modules/bootstrap/dist/css'));
+
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
+app.use('/node_modules/bootstrap/dist/css', express.static(bootstrap_css));
 
 // получение списка данных
 app.get("/api/blogs", (request, response) => {

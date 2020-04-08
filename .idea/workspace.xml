@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2e649fb2-48a7-4316-bf5c-4c8daaa1e92c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blogs.json" beforeDir="false" afterPath="$PROJECT_DIR$/blogs.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/scripts.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +35,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="13.10.1" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.ChangelistConflict" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -82,6 +85,9 @@
       <workItem from="1586328828849" duration="5213000" />
       <workItem from="1586335583230" duration="4105000" />
       <workItem from="1586339775309" duration="1000" />
+      <workItem from="1586343362355" duration="1605000" />
+      <workItem from="1586344985939" duration="1453000" />
+      <workItem from="1586346452223" duration="4197000" />
     </task>
     <servers />
   </component>
@@ -89,14 +95,18 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="552" y="178" key="#Inspections" timestamp="1586345016395">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1586345016395" />
     <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1585747958491">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585747958491" />
-    <state x="463" y="165" key="SettingsEditor" timestamp="1585733707012">
+    <state x="463" y="165" key="SettingsEditor" timestamp="1586346484697">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585733707012" />
+    <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586346484697" />
     <state x="668" y="347" key="com.intellij.ide.util.TipDialog" timestamp="1586241268471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -1,4 +1,4 @@
-let count = document.querySelector(".out");
+const count = document.querySelector(".out");
 const url = "/api/blogs";
 
 // Получение всех блогов
