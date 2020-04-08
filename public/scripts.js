@@ -2,23 +2,24 @@ let count = document.querySelector(".out");
 const url = "/api/blogs";
 
 // Получение всех блогов
-function GetBlogs() {
-    fetch(url)
-        .then(
-            function (response) {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
-                }
-                response.json().then(function (blogs) {
-                    let rows = "";
-                    blogs.forEach(blog => rows += row(blog));
-                    count.innerHTML = rows;
-                });
-            })
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err);
+async function GetBlogs() {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw Error('Posts not found');
+
+        const posts = await response.json();
+        let rows = "";
+        posts.forEach(blog => rows += row(blog));
+        count.innerHTML = rows;
+
+        posts.forEach(post => {
+            onEdit(post.id);
+            onRemove(post.id);
         });
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // Получение одного блога
@@ -31,11 +32,11 @@ function GetBlog(id) {
                     return;
                 }
                 response.json().then(function (blog) {
-                            let form = document.forms["blogForm"];
-                            form.elements["id"].value = blog.id;
-                            form.elements["name"].value = blog.name;
-                            form.elements["content"].value = blog.content;
-                        })
+                    let form = document.forms["blogForm"];
+                    form.elements["id"].value = blog.id;
+                    form.elements["name"].value = blog.name;
+                    form.elements["content"].value = blog.content;
+                })
             })
         .catch(function (err) {
             console.log('Fetch Error :-S', err);
@@ -63,6 +64,8 @@ function CreateBlog(blogName, blogContent) {
                 response.json().then(function (blog) {
                     reset();
                     count.insertAdjacentHTML('afterend', row(blog));
+                    onEdit(blog.id);
+                    onRemove(blog.id);
                 })
             })
         .catch(function (err) {
@@ -71,7 +74,7 @@ function CreateBlog(blogName, blogContent) {
 }
 // Изменение блога
 function EditBlog(blogId, blogName, blogContent) {
-    fetch(url,{
+    fetch(url, {
         headers: {
             "Content-Type": "application/json"
         },
@@ -91,6 +94,8 @@ function EditBlog(blogId, blogName, blogContent) {
                 response.json().then(function (blog) {
                     reset();
                     document.querySelector("tr[data-rowid='" + blog.id + "']").outerHTML = row(blog);
+                    onEdit(blog.id);
+                    onRemove(blog.id);
                 })
             })
         .catch(function (err) {
@@ -100,7 +105,7 @@ function EditBlog(blogId, blogName, blogContent) {
 
 // Удаление блога
 function DeleteBlog(id) {
-    fetch(url + '/' + id,{
+    fetch(url + '/' + id, {
         headers: {
             "Content-Type": "application/json"
         },
@@ -115,6 +120,8 @@ function DeleteBlog(id) {
                 response.json().then(function (blog) {
                     console.log(blog);
                     document.querySelector("tr[data-rowid='" + blog.id + "']").remove();
+                    onEdit(blog.id);
+                    onRemove(blog.id);
                 })
             })
         .catch(function (err) {
@@ -133,53 +140,56 @@ function reset() {
 let row = function (blog) {
     return "<tr data-rowid='" + blog.id + "'><td>" + blog.id + "</td>" +
         "<td>" + blog.name + "</td> <td>" + blog.content + "</td>" +
-        "<td><a class='editLink' data-id='" + blog.id + "'>Изменить</a> | " +
-        "<a class='removeLink' data-id='" + blog.id + "'>Удалить</a></td></tr>";
+        "<td><button class='editButton' data-id='" + blog.id + "'>Изменить</button> | " +
+        "<button class='removeButton' data-id='" + blog.id + "'>Удалить</button</td></tr>";
 }
 
-// сброс значений формы
-document.querySelector('#reset').addEventListener('click', (e) => {
-    e.preventDefault();
-    reset();
-});
-
-// отправка формы
-document.querySelector('form').onsubmit = (function (e) {
-    e.preventDefault();
-    let id = this.elements["id"].value;
-    let name = this.elements["name"].value;
-    let content = this.elements["content"].value;
-    if (id == 0)
-        CreateBlog(name, content);
-    else
-        EditBlog(id, name, content);
-});
-
 // нажимаем на ссылку Изменить
-// $("body").on("click", ".editLink", function () {
-//     var id = $(this).data("id");
-//     GetBlog(id);
-// })
-const elements = document.querySelectorAll('.editLink');
+function onEdit(id) {
+    const editButton = document.querySelectorAll(".editButton");
+    if(editButton) {
+        editButton.forEach(element => {
+            element.addEventListener('click', event => {
+                if (event.target) {
+                    const id = event.target.dataset.id;
 
-elements.forEach(element => {
-    element.addEventListener('click', event => {
-        if (event.target) {
-            const id = event.target.dataset.id;
-
-            GetBlog(id);
-        }
-    });
-});
-
+                    GetBlog(id);
+                }
+            });
+        });
+    }
+}
 
 // нажимаем на ссылку Удалить
-$("body").on("click", ".removeLink", function () {
-    let id = $(this).data("id");
-    DeleteBlog(id);
-});
+function onRemove(id) {
+    const removeButton = document.querySelectorAll('.removeButton');
+    if(removeButton)
+    {
+        removeButton.forEach(element => {
+            element.addEventListener('click', event => {
+                if (event.target) {
+                    const id = event.target.dataset.id;
+
+                    DeleteBlog(id);
+                }
+            });
+        });
+    }
+}
 
 // загрузка блогов
-window.onload = () =>{
-    GetBlogs();
+window.onload = async () => {
+    await GetBlogs();
+
+    // отправка формы
+    document.querySelector('form').onsubmit = (function (e) {
+        e.preventDefault();
+        let id = this.elements["id"].value;
+        let name = this.elements["name"].value;
+        let content = this.elements["content"].value;
+        if (id == 0)
+            CreateBlog(name, content);
+        else
+            EditBlog(id, name, content);
+    });
 };
