@@ -5,6 +5,7 @@ const path = require('path');
 let app = express();
 const blogStorage = path.normalize(path.join(__dirname, 'blogs.json'));
 app.use(express.static(__dirname + "/public"));
+app.use(express.json());
 
 // получение списка данных
 app.get("/api/blogs", (request, response) => {
@@ -23,11 +24,12 @@ app.get("/api/blogs/:id", (request, response) => {
     if(blog) response.send(blog);
     else response.status(404).send();
 });
+
 // получение отправленных данных
-app.post("/api/blogs", express.json(), (request, response) => {
+app.post("/api/blogs", (request, response) => {
     if(!request.body) return response.sendStatus(400);
-    const { name: blogName, content: blogContent } = request.body;
-    let blog = {name: blogName, content: blogContent};
+    const { name, content } = request.body;
+    let blog = {name, content};
 
     var data = fs.readFileSync("blogs.json", "utf8");
     let blogs = JSON.parse(data);
@@ -45,6 +47,7 @@ app.post("/api/blogs", express.json(), (request, response) => {
     fs.writeFileSync(blogStorage, data);
     response.send(blog);
 });
+
 // удаление блога по id
 app.delete("/api/blogs/:id", (request, response) => {
     let id = request.params.id;
@@ -68,8 +71,9 @@ app.delete("/api/blogs/:id", (request, response) => {
     }
     else response.status(404).send();
 });
+
 // изменение блога
-app.put("/api/blogs", express.json(), (request, response) => {
+app.put("/api/blogs", (request, response) => {
     if(!request.body) return response.sendStatus(400);
     const { id: blogId, name: blogName, content: blogContent } = request.body;
 
