@@ -1,105 +1,106 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const app = express();
 
-const blogStorage = path.normalize(path.join(__dirname, 'blogs.json'));
+const postStorage = path.normalize(path.join(__dirname, 'posts.json'));
 const bootstrap_css = path.normalize(path.join(__dirname, 'node_modules/bootstrap/dist/css'));
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use('/node_modules/bootstrap/dist/css', express.static(bootstrap_css));
 
 // получение списка данных
-app.get("/api/blogs", (request, response) => {
-    let content = fs.readFileSync("blogs.json", "utf8");
-    let blogs = JSON.parse(content);
-    response.send(blogs);
+app.get('/api/posts', (request, response) => {
+    const content = fs.readFileSync('posts.json', 'utf8');
+    const posts = JSON.parse(content);
+    response.send(posts);
 });
+
 // получение одного блога по id
-app.get("/api/blogs/:id", (request, response) => {
-    let id = request.params.id; // получаем id
-    let content = fs.readFileSync("blogs.json", "utf8");
-    let blogs = JSON.parse(content);
+app.get('/api/posts/:id', (request, response) => {
+    const id = request.params.id; // получаем id
+    const content = fs.readFileSync('posts.json', 'utf8');
+    const posts = JSON.parse(content);
     // находим в массиве блог по id
-    const blog = blogs.find(blog => blog.id == id);
+    const post = posts.find(post => post.id === id);
     // отправляем блог
-    if(blog) response.send(blog);
+    if (post) response.send(post);
     else response.status(404).send();
 });
 
 // получение отправленных данных
-app.post("/api/blogs", (request, response) => {
+app.post('/api/posts', (request, response) => {
     if(!request.body) return response.sendStatus(400);
     const { name, content } = request.body;
-    let blog = {name, content};
+    const post = {name, content};
 
-    var data = fs.readFileSync("blogs.json", "utf8");
-    let blogs = JSON.parse(data);
+    var data = fs.readFileSync('posts.json', 'utf8');
+    const posts = JSON.parse(data);
     // находим максимальный id
-    const latestId = blogs.reduce((acc, blog) =>{
-        if(blog.id > acc) return blog.id;
+    const latestId = posts.reduce((acc, post) =>{
+        if(post.id > acc) return post.id;
         return acc;
     }, 0);
     // увеличиваем его на единицу
-    blog.id = latestId + 1;
+    post.id = latestId + 1;
     // добавляем блог в массив
-    blogs.push(blog);
-    var data = JSON.stringify(blogs);
+    posts.push(post);
+    var data = JSON.stringify(posts);
     // перезаписываем файл с новыми данными
-    fs.writeFileSync(blogStorage, data);
-    response.send(blog);
+    fs.writeFileSync(postStorage, data);
+    response.send(post);
 });
 
 // удаление блога по id
-app.delete("/api/blogs/:id", (request, response) => {
-    let id = request.params.id;
-    let data = fs.readFileSync("blogs.json", "utf8");
-    let blogs = JSON.parse(data);
+app.delete('/api/posts/:id', (request, response) => {
+    const id = request.params.id;
+    const data = fs.readFileSync('posts.json', 'utf8');
+    const posts = JSON.parse(data);
     let index = -1;
     // находим индекс блога в массиве
-    for(let i = 0; i < blogs.length; i++){
-        if(blogs[i].id == id){
-            index=i;
+    for(let i = 0; i < posts.length; i++){
+        if(posts[i].id == id){
+            index = i;
             break;
         }
     }
     if(index > -1){
         // удаляем блог из массива по индексу
-        let blog = blogs.splice(index, 1)[0];
-        let data = JSON.stringify(blogs);
-        fs.writeFileSync(blogStorage, data);
+        const post = posts.splice(index, 1)[0];
+        const data = JSON.stringify(posts);
+        fs.writeFileSync(postStorage, data);
         // отправляем удаленный блог
-        response.send(blog);
+        response.send(post);
     }
     else response.status(404).send();
 });
 
 // изменение блога
-app.put("/api/blogs", (request, response) => {
+app.put('/api/posts', (request, response) => {
     if(!request.body) return response.sendStatus(400);
-    const { id: blogId, name: blogName, content: blogContent } = request.body;
+    const { id: postId, name: postName, content: postContent } = request.body;
 
-    let data = fs.readFileSync("blogs.json", "utf8");
-    let blogs = JSON.parse(data);
-    let blog;
-    for(let i = 0; i < blogs.length; i++){
-        if(blogs[i].id == blogId){
-            blog = blogs[i];
+    const data = fs.readFileSync('posts.json', 'utf8');
+    const posts = JSON.parse(data);
+    let post;
+    for(let i = 0; i < posts.length; i++){
+        if(posts[i].id == postId){
+            post = posts[i];
             break;
         }
     }
     // изменяем данные блога
-    if(blog){
-        blog.content = blogContent;
-        blog.name = blogName;
-        let data = JSON.stringify(blogs);
-        fs.writeFileSync(blogStorage, data);
-        response.send(blog);
+    if(post){
+        post.content = postContent;
+        post.name = postName;
+        const data = JSON.stringify(posts);
+        fs.writeFileSync(postStorage, data);
+        response.send(post);
     }
-    else response.status(404).send(blog);
+    else response.status(404).send(post);
 });
 
 app.listen(3000, function(){
-    console.log("Сервер ожидает подключения...");
+    console.log('Сервер ожидает подключения...');
 });

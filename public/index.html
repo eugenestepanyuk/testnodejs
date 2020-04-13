@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, blog-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, post-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="сss/style.css">
+
 </head>
 <body>
 <!---------------------------------------------------
@@ -25,7 +26,7 @@
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Blogs</a>
+                        <a class="nav-link" href="#">Posts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Authorization</a>
@@ -37,13 +38,13 @@
     </nav>
 
 <!---------------------------------------------------
-        BLOCK WITH FORM BLOGS
+        BLOCK WITH FORM postS
 ------------------------------------------------------->
     <div class="container">
         <div class="row">
 
-            <div class="col-md-7 offset-md-2">
-                <form name="blogForm" class="myForm">
+            <div class="col-md-8 offset-md-2">
+                <form name="postForm" class="myForm">
                     <input type="hidden" name="id" value="0" />
                     <div class="form-group">
                         <input class="form-control" name="name" placeholder="Title.."/>
@@ -62,7 +63,7 @@
     </div> <!-- /.container -->
 
 <!---------------------------------------------------
-        BLOCK WITH TABLE BLOGS
+        BLOCK WITH TABLE postS
 ------------------------------------------------------->
 <div class="container">
     <div class="row">
@@ -73,13 +74,13 @@
 <!--            </tbody>-->
 <!--        </table>-->
 
-        <div class="out col-md-7 offset-md-2">
+        <div class="out col-md-8 offset-md-2">
 
         </div>
 
     </div> <!-- /.row -->
 </div> <!-- /.container -->
 
-<script src="js/scripts.js"></script>
+<script src="js/request.js"></script>
 </body>
 </html>
