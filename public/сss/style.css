@@ -27,18 +27,19 @@ body {
 }
 
 /*-----------------------------------
-    BLOCK WITH FORM postS
+    BLOCK WITH POSTS
 -------------------------------------*/
-.myForm {
+.posts {
     padding: 30px 0px 60px 0px;
 }
 .button-group {
     float: right;
 }
-.btn-secondary {
+.btn-secondary, .btn-outline-secondary {
     width: 100px;
     margin-right: 20px;
 }
+
 
 
 

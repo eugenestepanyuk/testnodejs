@@ -38,41 +38,33 @@
     </nav>
 
 <!---------------------------------------------------
-        BLOCK WITH FORM postS
+        BLOCK WITH POSTS
 ------------------------------------------------------->
     <div class="container">
         <div class="row">
-
-            <div class="col-md-8 offset-md-2">
-                <form name="postForm" class="myForm">
-                    <input type="hidden" name="id" value="0" />
-                    <div class="form-group">
-                        <input class="form-control" name="name" placeholder="Title.."/>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" name="content" rows="10" placeholder="Content.."></textarea>
-                    </div>
-                    <div class="form-group button-group">
-                        <button type="submit" class="btn btn-secondary btn-save">Save</button>
-                        <button type="reset" class="btn btn-secondary btn-reset">Reset</button>
-                    </div>
-                </form>
+            
+            <div class="posts col-md-8 offset-md-2">
+                <input type="hidden" name="id" value="0" />
+                <div class="form-group">
+                    <input class="form-control" name="name" placeholder="Title.."/>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name="content" rows="10" placeholder="Content.."></textarea>
+                </div>
+                <div class="form-group button-group">
+                    <button type="submit" class="btn btn-secondary btn-save">Save</button>
+                    <button type="reset" class="btn btn-secondary btn-reset">Reset</button>
+                </div>
             </div>
-
+            
         </div> <!-- /.row -->
     </div> <!-- /.container -->
 
 <!---------------------------------------------------
-        BLOCK WITH TABLE postS
+        BLOCK WITH NEW POSTS
 ------------------------------------------------------->
 <div class="container">
     <div class="row">
-
-<!--        <table class="table table-condensed table-striped table-bordered">-->
-<!--            <thead><tr><th>Id</th><th>Title</th><th>Content</th><th></th></tr></thead>-->
-<!--            <tbody class="out">-->
-<!--            </tbody>-->
-<!--        </table>-->
 
         <div class="out col-md-8 offset-md-2">
 
